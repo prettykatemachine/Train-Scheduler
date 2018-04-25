@@ -60,6 +60,36 @@ $("#add-train-btn").on("click", function (event) {
   return false;
 });
 //Add an HTML row of the train
-//Timing... Calculate Time Between Train and Now (train arrival)
-//Displaying train information in the table
+database.ref().on("child_added", function (childSnapshot) {
+  console.log(childSnapshot.val());
+
+  var trainName = childSnapshot.val().name;
+  var trainDestination = childSnapshot.val().destination;
+  var trainTime = childSnapshot.val().time;
+  var trainFrequency = childSnapshot.val().frequency;
+
+  console.log(trainName);
+  console.log(trainDestination);
+  console.log(trainTime);
+  console.log(trainFrequency);
+
+  //Timing... Calculate Time Between Train and Now (train arrival)
+  var timeConverted = moment(trainTime, "HH:mm");
+  console.log("Time converted: " + timeConverted);
+  var timeDiff = moment().diff(moment(timeConverted), "minutes");
+  console.log("Difference in time: " + timeDiff);
+  var remainder = timeDiff % trainFrequency;
+  console.log("Remainder: " + remainder);
+  var minutesAway = trainFrequency - remainder;
+  console.log("Minutes away: " + minutesAway);
+  var nextTrain = moment().add(minutesAway, "minutes");
+  var nextArrival = moment(nextTrain).format("HH:mm");
+  console.log("Next arrival: " + nextArrival);
+
+  //Displaying train information in the table
+  $("#new-train").append("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" + "Every " + trainFrequency + " min" + "</td><td>" +
+    nextArrival + "</td><td>" + minutesAway + " min" + "</td></tr>");
+}, function (errorObject) {
+  console.log("Errors handled: " + errorObject.code);
+});
 //Update schedule every ... 38 seconds
