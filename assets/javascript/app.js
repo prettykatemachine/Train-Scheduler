@@ -92,4 +92,7 @@ database.ref().on("child_added", function (childSnapshot) {
 }, function (errorObject) {
   console.log("Errors handled: " + errorObject.code);
 });
-//Update schedule every ... 38 seconds
+// updates the schedule every minute 
+setInterval(function() {
+	location.reload(true);
+}, 60000);

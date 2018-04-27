@@ -4,6 +4,14 @@
 	margin-bottom: 50px;
 }
 
+header {
+	background-image: url("../images/traaiin.png")
+}
+
+h1 {
+	color: azure;
+}
+
 .header-text {
 	font-size: 25px;
 	font: bold;
